@@ -59,17 +59,3 @@ if [[ $INPUT_SLIDES_BUILD == true ]]; then
     asciidoctor-revealjs -a revealjsdir=https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.9.2 "$INPUT_SLIDES_MAIN_ADOC_FILE" -o "$SLIDES_FILE" 
     git add -f "$SLIDES_FILE"; 
 fi
-
-# Executes any post-processing command provided by the user, before changes are committed.
-# If not command is provided, the default value is just an echo command.
-eval "$INPUT_POST_BUILD"
-
-MSG="Build $INPUT_ADOC_FILE_EXT Files for GitHub Pages from $COMMIT_HASH"
-git rm -rf .github/
-echo "Committing changes to gh-pages branch"
-git commit -m "$MSG" 1>/dev/null
-
-echo "
-StrictHostKeyChecking no
-UserKnownHostsFile=/dev/null
-" > /etc/ssh/ssh_config
