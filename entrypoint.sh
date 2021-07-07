@@ -9,22 +9,6 @@ OWNER="$(echo $GITHUB_REPOSITORY| cut -d'/' -f 1)"
 
 if [[ "$INPUT_ADOC_FILE_EXT" != .* ]]; then 
     INPUT_ADOC_FILE_EXT=".$INPUT_ADOC_FILE_EXT"; 
-fi
-
-# Steps represent a sequence of tasks that will be executed as part of the job
-echo "Configure git"
-apk add git -q > /dev/null
-apk add openssh-client -q > /dev/null
-
-git config --local user.email "action@github.com"
-git config --local user.name "GitHub Action"
-
-# Gets latest commit hash for pushed branch
-COMMIT_HASH=$(git rev-parse HEAD)
-
-echo "Checking out the gh-pages branch (keeping its history) from commit $COMMIT_HASH"
-git fetch --all
-git checkout $COMMIT_HASH -B gh-pages
 
 if [[ $INPUT_SLIDES_SKIP_ASCIIDOCTOR_BUILD == false ]]; then 
     echo "Converting AsciiDoc files to HTML"
